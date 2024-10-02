@@ -1,5 +1,7 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
+import connectDb from './services/dbService/databaseService.js';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import router from './routes/apiRoutes.js';
 import globalErrorHandler from './middleware/globalErrorHandler.js';
@@ -12,6 +14,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app: Application = express();
+// Connect to MongoDB
+await connectDb.connect();
 
 //Middleware
 app.use(
@@ -21,8 +25,21 @@ app.use(
         credentials: true
     })
 );
+
+// Path to uploads directory
+const uploadsDir = path.join(__dirname, '../uploads');
+
+// Ensure the uploads directory exists
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+} else {
+    // eslint-disable-next-line no-console
+    console.log(`Uploads directory already exists at: ${uploadsDir}`);
+}
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../', 'public')));
+app.use('/uploads', express.static(uploadsDir));
 
 //Routes
 app.use('/api/v1', router);

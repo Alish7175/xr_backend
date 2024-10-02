@@ -21,4 +21,6 @@ export type THttpError = {
     message: string;
     data: unknown;
     trace?: object | null;
+    stack?: string; // Optional stack property to handle error stack traces
 };
+
