@@ -21,7 +21,7 @@ await connectDb.connect();
 app.use(
     cors({
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
-        origin: ['*'],
+        origin: 'http://localhost:5173',
         credentials: true
     })
 );
@@ -57,4 +57,3 @@ app.use((req: Request, _: Response, next: NextFunction) => {
 app.use(globalErrorHandler);
 
 export default app;
-
