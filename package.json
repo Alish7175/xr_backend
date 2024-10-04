@@ -5,7 +5,7 @@
     "type": "module",
     "main": "src/server.ts",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development nodemon --watch src --ext ts --exec \"ts-node --esm ./src/server.ts\"",
+        "dev": "cross-env NODE_ENV=development nodemon",
         "build": "tsc",
         "start": "npm run build && cross-env NODE_ENV=production node dist/server.js",
         "lint": "eslint .",
