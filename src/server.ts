@@ -11,15 +11,16 @@ const server = app.listen(config.PORT);
     try {
         //db connection
         const connection = await databaseService.connect();
+        if (connection !== null) {
+            initRateLimiter(connection);
+            logger.info(`RATE_LIMITER_INITIATED`);
 
-        initRateLimiter(connection);
-        logger.info(`RATE_LIMITER_INITIATED`);
-
-        logger.info(`DATABASE_CONNECTION`, {
-            meta: {
-                CONNECTION_NAME: connection.name
-            }
-        });
+            logger.info(`DATABASE_CONNECTION`, {
+                meta: {
+                    CONNECTION_NAME: connection.name
+                }
+            });
+        }
 
         logger.info(`APPLICATION_STARTED`, {
             meta: {
@@ -39,3 +40,4 @@ const server = app.listen(config.PORT);
         });
     }
 })();
+
